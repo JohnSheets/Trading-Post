@@ -15,11 +15,10 @@ namespace TradingPost.Controllers
             _userProfileRepository = userProfileRepository;
         }
 
-
-    [HttpGet]
-    public IActionResult Get()
-    {
-        return Ok(_userProfileRepository.GetAll());
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return Ok(_userProfileRepository.GetAll());
+        }
     }
-}
 }

@@ -8,6 +8,6 @@
         public int Price { get; set; }
         public bool Trade { get; set; }
         public int UserProfileId { get; set; }
-        public string Pictre { get; set; }
+        public byte[] Picture { get; set; }
     }
 }

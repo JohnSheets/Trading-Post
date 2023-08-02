@@ -15,6 +15,7 @@ namespace TradingPost
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddTransient<IUserProfileRepository, UserProfileRepository>();
+            builder.Services.AddTransient<IItemRepository, ItemRepository>();
 
             var app = builder.Build();
 
