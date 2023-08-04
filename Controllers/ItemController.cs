@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Azure;
+using Microsoft.AspNetCore.Mvc;
+using TradingPost.Models;
 using TradingPost.Repositories;
 
 namespace TradingPost.Controllers
@@ -26,6 +28,31 @@ namespace TradingPost.Controllers
                 return NotFound();
             }
             return Ok(item);
+        }
+        [HttpPost]
+        public IActionResult Post(Item item)
+        {
+            _itemRepository.Add(item);
+            return CreatedAtAction("Get", new { id = item.Id }, item);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            _itemRepository.Delete(id);
+            return NoContent();
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, Item item)
+        {
+            if (id != item.Id)
+            {
+                return BadRequest();
+            }
+
+            _itemRepository.Update(item);
+            return NoContent();
         }
 
     }

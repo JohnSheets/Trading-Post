@@ -1,7 +1,8 @@
-﻿using System.Data;
+﻿using Azure;
+using System.Data;
 using TradingPost.Models;
 using TradingPost.Utils;
-
+ 
 namespace TradingPost.Repositories
 {
     public class ItemRepository : BaseRepository, IItemRepository
@@ -92,6 +93,68 @@ namespace TradingPost.Repositories
                     reader.Close();
 
                     return items;
+                }
+            }
+        }
+        public void Add(Item item)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO Item (Description, Price, Trade, UserProfileId, Picture)
+                                        OUTPUT INSERTED.ID
+                                        VALUES (@Description, @Price, @Trade, @UserProfileId, @Picture)";
+                    DbUtils.AddParameter(cmd, "@Description", item.Description);
+                    DbUtils.AddParameter(cmd, "@Price", item.Price);
+                    DbUtils.AddParameter(cmd, "@Trade", item.Trade);
+                    DbUtils.AddParameter(cmd, "@UserProfileId", item.UserProfileId);
+                    DbUtils.AddParameter(cmd, "@Picture", item.Picture);
+
+
+                    item.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
+        public void Delete(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "DELETE FROM Item WHERE Id = @Id";
+                    DbUtils.AddParameter(cmd, "@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void Update(Item item)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        UPDATE Item
+                           SET Description = @Description,
+                            Price = @Price,
+                            Trade = @Trade,
+                            UserProfileId = @UserProfileId,
+                            Picture = @Picture
+                           WHERE Id = @Id";
+
+                    DbUtils.AddParameter(cmd, "@Description", item.Description);
+                    DbUtils.AddParameter(cmd, "@Price", item.Price);
+                    DbUtils.AddParameter(cmd, "@Trade", item.Trade);
+                    DbUtils.AddParameter(cmd, "@UserProfileId", item.UserProfileId);
+                    cmd.Parameters.AddWithValue("@Picture", item.Picture);
+                    DbUtils.AddParameter(cmd, "@Id", item.Id);
+                    cmd.ExecuteNonQuery();
                 }
             }
         }

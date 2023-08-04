@@ -6,5 +6,8 @@ namespace TradingPost.Repositories
     {
         List<Item> GetAll();
         List<Item> GetItemByUserId(int id);
+        void Add(Item item);
+        void Delete(int id);
+       void Update(Item item);
     }
 }

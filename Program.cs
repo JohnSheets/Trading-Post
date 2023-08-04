@@ -16,6 +16,7 @@ namespace TradingPost
             builder.Services.AddSwaggerGen();
             builder.Services.AddTransient<IUserProfileRepository, UserProfileRepository>();
             builder.Services.AddTransient<IItemRepository, ItemRepository>();
+            builder.Services.AddTransient<IOrderRepository, OrderRepository>();
 
             var app = builder.Build();
 
@@ -28,8 +29,9 @@ namespace TradingPost
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+            app.UseStaticFiles();
 
+            app.UseAuthorization();
 
             app.MapControllers();
 
