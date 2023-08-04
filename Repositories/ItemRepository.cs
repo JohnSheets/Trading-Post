@@ -33,7 +33,7 @@ namespace TradingPost.Repositories
                             Price = DbUtils.GetInt(reader, "Price"),
                             Trade = reader.GetBoolean(reader.GetOrdinal("Trade")),
                             UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
-                            Picture = ReadBinaryData(reader, "Picture")
+                            Picture = DbUtils.GetString(reader, "Picture")
                         });
                     }
 
@@ -44,19 +44,6 @@ namespace TradingPost.Repositories
             }
         }
 
-        private byte[] ReadBinaryData(IDataReader reader, string columnName)
-        {
-            // Check if the column is not DBNull
-            if (!reader.IsDBNull(reader.GetOrdinal(columnName)))
-            {
-                long bufferSize = reader.GetBytes(reader.GetOrdinal(columnName), 0, null, 0, 0); // Get the size of the binary data
-                byte[] buffer = new byte[bufferSize];
-                reader.GetBytes(reader.GetOrdinal(columnName), 0, buffer, 0, (int)bufferSize); // Read binary data into the buffer
-                return buffer;
-            }
-
-            return null;
-        }
         public List <Item> GetItemByUserId(int userProfileId)
         {
             using (var conn = Connection)
@@ -86,7 +73,7 @@ namespace TradingPost.Repositories
                             Price = DbUtils.GetInt(reader, "Price"),
                             Trade = reader.GetBoolean(reader.GetOrdinal("Trade")),
                             UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
-                            Picture = ReadBinaryData(reader, "Picture")
+                            Picture = DbUtils.GetString(reader, "Picture")
                         });
                     }
 
@@ -103,9 +90,10 @@ namespace TradingPost.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO Item (Description, Price, Trade, UserProfileId, Picture)
+                    cmd.CommandText = @"INSERT INTO Item (SellerId, Description, Price, Trade, UserProfileId, Picture)
                                         OUTPUT INSERTED.ID
-                                        VALUES (@Description, @Price, @Trade, @UserProfileId, @Picture)";
+                                        VALUES (@SellerId, @Description, @Price, @Trade, @UserProfileId, @Picture)";
+                    DbUtils.AddParameter(cmd, "@SellerId", item.SellerId);
                     DbUtils.AddParameter(cmd, "@Description", item.Description);
                     DbUtils.AddParameter(cmd, "@Price", item.Price);
                     DbUtils.AddParameter(cmd, "@Trade", item.Trade);
@@ -152,7 +140,7 @@ namespace TradingPost.Repositories
                     DbUtils.AddParameter(cmd, "@Price", item.Price);
                     DbUtils.AddParameter(cmd, "@Trade", item.Trade);
                     DbUtils.AddParameter(cmd, "@UserProfileId", item.UserProfileId);
-                    cmd.Parameters.AddWithValue("@Picture", item.Picture);
+                    DbUtils.AddParameter(cmd, "@Picture", item.Picture);
                     DbUtils.AddParameter(cmd, "@Id", item.Id);
                     cmd.ExecuteNonQuery();
                 }

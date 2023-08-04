@@ -19,7 +19,7 @@ namespace TradingPost.Controllers
         {
             return Ok(_itemRepository.GetAll());
         }
-        [HttpGet("{id}")]
+        [HttpGet("{UserProfileId}")]
         public IActionResult Get(int id)
         {
             var item = _itemRepository.GetItemByUserId(id);

@@ -30,10 +30,7 @@ namespace TradingPost.Repositories
                         {
                             Id = DbUtils.GetInt(reader, "Id"),
                             UserName = DbUtils.GetString(reader, "UserName"),
-
-                            // Read binary data as a byte array from the reader using GetBytes method
-                            Profile = ReadBinaryData(reader, "Profile"),
-
+                            Profile = DbUtils.GetString(reader, "Profile"),
                             Email = DbUtils.GetString(reader, "Email")
                         });
                     }
@@ -43,20 +40,6 @@ namespace TradingPost.Repositories
                     return userProfiles;
                 }
             }
-        }
-
-        private byte[] ReadBinaryData(IDataReader reader, string columnName)
-        {
-            // Check if the column is not DBNull
-            if (!reader.IsDBNull(reader.GetOrdinal(columnName)))
-            {
-                long bufferSize = reader.GetBytes(reader.GetOrdinal(columnName), 0, null, 0, 0); // Get the size of the binary data
-                byte[] buffer = new byte[bufferSize];
-                reader.GetBytes(reader.GetOrdinal(columnName), 0, buffer, 0, (int)bufferSize); // Read binary data into the buffer
-                return buffer;
-            }
-
-            return null;
         }
 
         public UserProfile GetProfileById(int Id)
@@ -83,7 +66,7 @@ namespace TradingPost.Repositories
                         {
                             Id = DbUtils.GetInt(reader, "Id"),
                             UserName = DbUtils.GetString(reader, "UserName"),
-                            Profile = ReadBinaryData(reader, "Profile"),
+                            Profile = DbUtils.GetString(reader, "Profile"),
                             Email = DbUtils.GetString(reader, "Email")
                         };
                     }
@@ -105,7 +88,7 @@ namespace TradingPost.Repositories
                                         OUTPUT INSERTED.ID
                                         VALUES (@UserName, @Profile, @Email)";
                     DbUtils.AddParameter(cmd, "@UserName", userProfile.UserName);
-                    cmd.Parameters.AddWithValue("@Profile", userProfile.Profile);
+                    DbUtils.AddParameter(cmd, "@Profile", userProfile.Profile);
                     DbUtils.AddParameter(cmd, "@Email", userProfile.Email);
 
                     userProfile.Id = (int)cmd.ExecuteScalar();
@@ -129,7 +112,7 @@ namespace TradingPost.Repositories
                          WHERE Id = @Id";
 
                     DbUtils.AddParameter(cmd, "@UserName", userProfile.UserName);
-                    cmd.Parameters.AddWithValue("@Profile", userProfile.Profile);
+                    DbUtils.AddParameter(cmd, "@Profile", userProfile.Profile);
                     DbUtils.AddParameter(cmd, "@Email", userProfile.Email);
                     DbUtils.AddParameter(cmd, "@Id", userProfile.Id);
                     cmd.ExecuteNonQuery();

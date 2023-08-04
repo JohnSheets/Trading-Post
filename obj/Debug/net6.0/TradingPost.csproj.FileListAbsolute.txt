@@ -69,3 +69,4 @@ C:\Users\user\workspace\TradingPost\TradingPost\obj\Debug\net6.0\refint\TradingP
 C:\Users\user\workspace\TradingPost\TradingPost\obj\Debug\net6.0\TradingPost.pdb
 C:\Users\user\workspace\TradingPost\TradingPost\obj\Debug\net6.0\TradingPost.genruntimeconfig.cache
 C:\Users\user\workspace\TradingPost\TradingPost\obj\Debug\net6.0\ref\TradingPost.dll
+C:\Users\user\workspace\TradingPost\TradingPost\bin\Debug\net6.0\TradingPost.staticwebassets.runtime.json
