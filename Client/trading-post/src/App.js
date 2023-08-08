@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { BrowserRouter} from "react-router-dom";
+import { useEffect } from 'react';
+import { Authorize }from './Components/Authorize.js';
+import ApplicationViews from './Components/ApplicationViews.js';
+import Header from './Components/Header.js';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export const App =()  => {
+    const [isLoggedIn, setIsLoggedIn] = useState(true);
+
+
+    useEffect(() => {
+        if (!localStorage.getItem("userProfile")) {
+            setIsLoggedIn(false)
+
+        }
+    }, [isLoggedIn])
+
+    return (
+        <BrowserRouter >
+        <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+            {isLoggedIn ?
+                // <ApplicationViews />
+                null
+                :
+                <Authorize setIsLoggedIn={setIsLoggedIn} />
+            }
+        </BrowserRouter >
+    );
 }
 
-export default App;
+
