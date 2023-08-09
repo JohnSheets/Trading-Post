@@ -20,8 +20,7 @@ export const App =()  => {
         <BrowserRouter >
         <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
             {isLoggedIn ?
-                // <ApplicationViews />
-                null
+                <ApplicationViews />
                 :
                 <Authorize setIsLoggedIn={setIsLoggedIn} />
             }

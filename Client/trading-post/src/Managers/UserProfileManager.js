@@ -1,7 +1,7 @@
 const apiUrl = "https://localhost:7086";
 
 export const login = (userObject) => {
-  return fetch(`${apiUrl}/api/UserProfile/getbyemail?email=${userObject.email}`)
+  return fetch(`${apiUrl}/api/UserProfile/getByEmail/${userObject.email}`)
   .then((r) => r.json())
     .then((userProfile) => {
       if(userProfile.id){
