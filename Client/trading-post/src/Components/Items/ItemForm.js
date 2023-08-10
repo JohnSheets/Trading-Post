@@ -1,7 +1,8 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { addItem } from "../../Managers/ItemManager.js"
+import { addItem, uploadImage } from "../../Managers/ItemManager.js"
 import { Button } from "reactstrap"
+import { UserProfile } from "../UserProfiles/UserProfiles.js"
 
 export const ItemForm = () => {
     const navigate = useNavigate()
@@ -11,7 +12,9 @@ export const ItemForm = () => {
         Description: "",
         Price: "",
         Trade: "",
-        Picture: ""
+        Picture: "",
+        UserProfileId: "",
+        SellerId: ""
     })
 
     const handleSaveButtonClick = (event) => {
@@ -19,13 +22,36 @@ export const ItemForm = () => {
 
         const itemToSendToAPI = {
             Description: item.Description,
-            Price: item.Price,
-            Trade: item.Trade,
-            Picture: item.Picture
+            Price: +item.Price,
+            Trade: null,
+            Picture: item.Picture,
+            UserProfileId: +item.UserProfileId,
+            SellerId: +item.SellerId
         }
+        console.log("current items", itemToSendToAPI)
         return addItem(itemToSendToAPI).then(() => navigate(`/home`));
+
     }
 
+    const handleImageChange = async (event) => {
+        const file = event.target.files[0];
+        try {
+            const res = await uploadImage(file) 
+            const data = await res.json()
+            if(data.imageUrl) {
+                const copy = {...item}
+                copy.Picture = data.imageUrl
+                update(copy)
+            }
+            else {
+                alert("Image upload failed")
+            }
+        }
+        catch (error) {
+            console.error("error uploading image: ", error)
+            alert("an error occured")
+        }
+    } 
     return (
         <div>
             <form className="itemForm">
@@ -76,7 +102,7 @@ export const ItemForm = () => {
                         value={item.Trade}
                         onChange={(event) => {
                             const copy = { ...item };
-                            copy.Trade = event.target.checked; // Update boolean value
+                            copy.Trade = event.target.checked; 
                             update(copy);
                         } 
                     }
@@ -92,11 +118,7 @@ export const ItemForm = () => {
                         className="form-control" 
                         id="picture"
                         onChange={ 
-                            (event) => {
-                            const copy = {...item}
-                            copy.Picture = event.target.files[0]
-                            update(copy)
-                        } 
+                            handleImageChange
                     }
                 />
                     </div>
