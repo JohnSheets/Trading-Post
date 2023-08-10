@@ -1,9 +1,11 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { addItem } from "../../Managers/ItemManager.js"
+import { Button } from "reactstrap"
 
 export const ItemForm = () => {
     const navigate = useNavigate()
-    const [itmes, setItem] =useState()
+    const [itme, setItem] =useState()
 
     const [item, update] =useState({
         Description: "",
@@ -12,8 +14,8 @@ export const ItemForm = () => {
         Picture: ""
     })
 
-    const handelSaveButtonClick = (event) => {
-        event.preventDefualt()
+    const handleSaveButtonClick = (event) => {
+        event.preventDefault()
 
         const itemToSendToAPI = {
             Description: item.Description,
@@ -21,7 +23,7 @@ export const ItemForm = () => {
             Trade: item.Trade,
             Picture: item.Picture
         }
-        return addItem(itemToSendToAPI).then(navigate(`/home`))
+        return addItem(itemToSendToAPI).then(() => navigate(`/home`));
     }
 
     return (
@@ -50,7 +52,7 @@ export const ItemForm = () => {
                     <div>
                     <input
                         required autoFocus
-                        type="integer" //should this type be an integer? 
+                        type="number" 
                         className="form-control"
                         placeholder="Price"
                         value={item.Price}
@@ -66,17 +68,16 @@ export const ItemForm = () => {
                 </fieldset>
                 <fieldset>
                     <div>
+                        <h5>Open to Trades?</h5>
                     <input
                         required autoFocus
-                        type="text" //"trade" is a boolean so how should this feildset be refactored? 
-                        className="form-control"
-                        placeholder="Description"
+                        type="checkbox"
+                        className="form-check-input"
                         value={item.Trade}
-                        onChange={ 
-                            (event) => {
-                            const copy = {...item}
-                            copy.Trade = event.target.value 
-                            update(copy)
+                        onChange={(event) => {
+                            const copy = { ...item };
+                            copy.Trade = event.target.checked; // Update boolean value
+                            update(copy);
                         } 
                     }
                 />
@@ -84,22 +85,28 @@ export const ItemForm = () => {
                 </fieldset>
                 <fieldset>
                     <div>
+                    <label htmlFor="picture">Upload Picture:</label>
                     <input
                         required autoFocus
-                        type="text"
-                        className="form-control"
-                        placeholder="Description"
-                        value={item.Picture}
+                        type="file"
+                        className="form-control" 
+                        id="picture"
                         onChange={ 
                             (event) => {
                             const copy = {...item}
-                            copy.Picture = event.target.value 
+                            copy.Picture = event.target.files[0]
                             update(copy)
                         } 
                     }
                 />
                     </div>
                 </fieldset>
+                <Button 
+        onClick={(clickEvent) => handleSaveButtonClick(clickEvent)}
+            className="btn btn-primary">
+           Create
+        </Button>
+
             </form>
         </div>
     )

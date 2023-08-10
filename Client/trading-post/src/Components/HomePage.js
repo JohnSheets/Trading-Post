@@ -21,6 +21,7 @@ export const HomePage = () => {
           <li key={item.id}>
              {item.Picture}<br />
             <strong>Price:</strong> {item.price}<br />
+            <Button onClick={() => navigate(`/item`)}>View Post</Button>
           </li>
         ))}
       </ul>
