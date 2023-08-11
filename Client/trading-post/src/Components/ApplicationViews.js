@@ -10,11 +10,12 @@ export default function ApplicationViews() {
 
     return(
         <Routes>
-            <Route path="/" element={<Hello />} />
+            <Route path="/" element={<HomePage />} />
             <Route path="/userProfile" element={<UserProfile />} />
-            <Route path="/home" element={<HomePage />} />
+            {/* <Route path="/home" element={<HomePage />} /> */}
             <Route path="/itemForm" element={<ItemForm />} />
-            {/* <Route path="/item" element={<SingleItem />} /> */}
+            <Route path="/item" element={<SingleItem />} />
+            <Route path="/profile" element={<UserProfile />} />
         </Routes>
     );
 }

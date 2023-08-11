@@ -3,6 +3,7 @@ import { getAllItems } from "../Managers/ItemManager";
 import { useNavigate } from "react-router-dom";
 import { Button, Container, Card, Col, Row } from "reactstrap";
 import { SingleItem } from "./Items/SingleItem";
+import { UserProfile } from "./UserProfiles/UserProfiles.js";
 export const HomePage = () => {
 
     const [items, setItems] =useState([]);
@@ -16,16 +17,19 @@ export const HomePage = () => {
     return (
         <>
         <Container>
-      <h1>All Items</h1>
+      <h1>Recent Posts</h1>
       <Row>
 
         {items.map((item) => (
             <Col key={item.id}>
              {/* {item.Picture}<br /> */}
             {/* <strong>Price:</strong> {item.price}<br /> */}
-            <Button onClick={() => navigate(`/item`)}>View Post</Button>
+            <Button onClick={() => navigate(`/item`)}>Add to Cart</Button>
             <Card>
             <SingleItem key={item.id} itemProp={item} />
+                </Card>
+                <Card>
+                    {/* <UserProfile key={item.SellerId} userProfileProp={item.SellerId} /> */}
                 </Card>
 
           </Col>

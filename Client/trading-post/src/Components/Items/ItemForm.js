@@ -23,13 +23,13 @@ export const ItemForm = () => {
         const itemToSendToAPI = {
             Description: item.Description,
             Price: +item.Price,
-            Trade: null,
+            Trade: item.Trade,
             Picture: item.Picture,
             UserProfileId: +item.UserProfileId,
             SellerId: +item.SellerId
         }
         console.log("current items", itemToSendToAPI)
-        return addItem(itemToSendToAPI).then(() => navigate(`/home`));
+        return addItem(itemToSendToAPI).then(() => navigate(`/`));
 
     }
 

@@ -19,5 +19,5 @@ export const logout = () => {
 };
 
 export const GetProfileById = (id) => {
-    return fetch(`${apiUrl}api/UserProfile/${id}`).then((r) => r.jason());
-} 
+  return fetch(`${apiUrl}/api/UserProfile/${id}`).then((response) => response.json());
+}

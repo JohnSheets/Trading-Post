@@ -1,12 +1,17 @@
 import { CardBody } from "reactstrap";
-import React from "react";
+import React, { useEffect } from "react";
+import { uploadImage } from "../../Managers/ItemManager.js";
 
 
 export const SingleItem = ({ itemProp }) => {
 
 console.log(itemProp);
   
-    return (
+useEffect(() => {
+    uploadImage()
+})
+
+return (
         
         <CardBody>
             <div>
@@ -14,13 +19,13 @@ console.log(itemProp);
                     {itemProp.description}
                 </strong>
                 <div>
-                    {itemProp.price}
+                    ${itemProp.price}
                 </div>
                 <div>
                     {itemProp.trade}
                 </div>
                 <div>
-                    {itemProp.picture}
+                    {itemProp.picture} 
                 </div>
             </div>
          </CardBody>
