@@ -24,7 +24,7 @@ export const HomePage = () => {
             <Col key={item.id}>
              {/* {item.Picture}<br /> */}
             {/* <strong>Price:</strong> {item.price}<br /> */}
-            <Button onClick={() => navigate(`/item`)}>Add to Cart</Button>
+            <Button onClick={() => navigate(`/post/${item.id}`)}>View</Button>
             <Card>
             <SingleItem key={item.id} itemProp={item} />
                 </Card>

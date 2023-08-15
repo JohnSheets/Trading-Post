@@ -5,6 +5,7 @@ import { UserProfile } from "./UserProfiles/UserProfiles";
 import { HomePage } from "./HomePage";
 import { ItemForm } from "./Items/ItemForm.js";
 import { SingleItem } from "./Items/SingleItem.js";
+import { Post } from "./PostPage.js";
 
 export default function ApplicationViews() {
 
@@ -14,8 +15,8 @@ export default function ApplicationViews() {
             <Route path="/userProfile" element={<UserProfile />} />
             {/* <Route path="/home" element={<HomePage />} /> */}
             <Route path="/itemForm" element={<ItemForm />} />
-            <Route path="/item" element={<SingleItem />} />
             <Route path="/profile" element={<UserProfile />} />
+            <Route path="/post/:id" element={<Post />} />
         </Routes>
     );
 }
